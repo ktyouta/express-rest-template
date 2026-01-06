@@ -1,0 +1,72 @@
+■Prisma使用手順
+
+
+①Prismaをインストールする
+プロジェクトのルートディレクトリで以下のコマンドを実行する
+コマンド：npm install prisma @prisma/client
+
+
+②Prismaの初期設定
+プロジェクトのルートディレクトリで以下のコマンドを実行する
+コマンド：npx prisma init
+
+
+③②実施後に以下のファイルが作成されていることを確認する
+・schema.prisma: Prisma のスキーマ定義ファイル
+・.env: 環境変数ファイル（データベース接続情報などを定義）
+
+
+④envファイルを自身の環境に応じて修正する
+例：DATABASE_URL="postgresql://postgres:パスワード@localhost:5432/データベース名?schema=スキーマ名"
+
+
+⑤プロジェクトのルートディレクトリにtestフォルダを作成
+
+
+⑥⑤で作成したフォルダ内に以下のファイルを配置する
+ファイル名：testConnection.ts
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+async function testConnection() {
+  try {
+    // データベースに接続して、簡単なクエリを実行してみる
+    const result = await prisma.$queryRaw`SELECT 1`;
+
+    console.log('Connection test successful:', result);
+  } catch (error) {
+    console.error('Connection test failed:', error);
+  } finally {
+    await prisma.$disconnect(); // 接続をクリーンアップ
+  }
+}
+
+testConnection();
+
+
+⑦以下のコマンドを実行してPrisma Clientを作成する
+コマンド：npx prisma generate
+
+
+⑧schema.prismaに以下を追加する
+model TestConnection {
+  id    Int     @id @default(autoincrement())
+}
+
+
+⑨プロジェクトのルートディレクトリで以下のコマンドを実行して接続テストを実施する
+コマンド：npx ts-node ./test/testConnection.ts
+
+
+⑩⑨で接続に成功した後、package.jsonのstartコマンド設定にnpx prisma generateを追加する
+"start": "npx prisma generate && npx ts-node server/index.ts"
+
+
+⑪sqlフォルダ内のクエリを実行する
+
+
+
+※テーブルの追加/定義変更時はschema.prismaを修正して以下の順でコマンドを実行する
+コマンド：npx prisma migrate dev --name マイグレーション名
+コマンド：npx prisma generate

@@ -1,0 +1,1 @@
+insert into seq_master values('front_user_id',1,current_timestamp,current_timestamp);
