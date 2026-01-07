@@ -21,7 +21,7 @@ GitHubリポジトリ作成・プッシュ手順
 git branch -M main
 
 7. リモートリポジトリを登録（「origin ＝ この GitHub リポジトリ」の紐づけ）
-git remote add origin https://github.com/ktyouta/[リポジトリ名].git
+git remote add origin https://github.com/[ユーザー名]/[リポジトリ名].git
 
 8. 修正をリモートリポジトリに反映
 git push origin main

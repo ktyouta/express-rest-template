@@ -1,4 +1,4 @@
-import { envConfig } from "./EnvConfig";
+import { envConfig } from "./env.config";
 
 const corsProtocol = envConfig.corsProtocol ?? ``;
 const corsDomain = envConfig.corsDomain ?? ``;

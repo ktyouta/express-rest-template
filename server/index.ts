@@ -1,10 +1,11 @@
 import bodyParser from 'body-parser';
 import { NextFunction, Request, Response } from 'express';
-import { envConfig } from './consts/EnvConfig';
-import { HTTP_STATUS } from './consts/HttpStatusConst';
-import { logConfig } from './logger/LogConfig';
-import { accessLogMiddleware } from './middleware/accessLogMiddleware';
-import { errorLogMiddleware } from './middleware/errorLogMiddleware';
+import { envConfig } from './config/env.config';
+import { HTTP_STATUS } from './consts/http-status.const';
+import { logConfig } from './logger/log-config';
+import { accessLogMiddleware } from './middleware/access-log.middleware';
+import { errorLogMiddleware } from './middleware/error-log.middleware';
+import { ROUTE_CONTROLLER_LIST } from './routes/route-controller-list';
 
 
 const express = require('express');
@@ -53,15 +54,15 @@ async function bootstrap() {
     });
 
     // コントローラーのルートを設定
-    // ROUTE_CONTROLLER_LIST.forEach((e) => {
-    //     app.use('/', e.router);
-    // });
+    ROUTE_CONTROLLER_LIST.forEach((e) => {
+        app.use('/', e.router);
+    });
 
     // エラー時共通処理
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
         // コンソールログ出力
-        console.error(`Error occurred in Video Manage API : ${err.message}`);
+        console.error(`Error occurred in API : ${err.message}`);
 
         // エラーログ出力
         errorLogMiddleware(err, req);
@@ -74,7 +75,7 @@ async function bootstrap() {
 
     // サーバーを起動
     app.listen(envConfig.port, () => {
-        console.log(`Video Manage API Server listening on port ${envConfig.port}`);
+        console.log(`API Server listening on port ${envConfig.port}`);
     });
 }
 
