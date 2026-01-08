@@ -3,7 +3,7 @@ import { IncomingHttpHeaders } from 'http';
 
 export class Header {
 
-    private readonly _headers: IncomingHttpHeaders;
+    private readonly _value: IncomingHttpHeaders;
 
     constructor(req: Request) {
 
@@ -11,16 +11,16 @@ export class Header {
             throw Error(`リクエストが存在しません。`);
         }
 
-        this._headers = req.headers;
+        this._value = req.headers;
     }
 
     get headers() {
-        return this._headers;
+        return this._value;
     }
 
     get(name: string): string | undefined {
 
-        const value = this._headers[name.toLowerCase()];
+        const value = this._value[name.toLowerCase()];
 
         if (Array.isArray(value)) {
             return value[0];

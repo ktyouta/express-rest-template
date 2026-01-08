@@ -6,7 +6,7 @@ export class AuthOrigin {
 
     // ヘッダのキー
     static readonly HEADER_KEY: string = `origin`;
-    private readonly _origin: string;
+    private readonly _value: string;
 
     constructor(header: Header) {
 
@@ -17,7 +17,7 @@ export class AuthOrigin {
             throw Error(`Origin未設定`);
         }
 
-        this._origin = origin;
+        this._value = origin;
     }
 
     /**
@@ -25,6 +25,6 @@ export class AuthOrigin {
      * @returns 
      */
     isAllowed() {
-        return AUTH_ALLOWED_ORIGINS.some(e => e === this._origin);
+        return AUTH_ALLOWED_ORIGINS.some(e => e === this._value);
     }
 }

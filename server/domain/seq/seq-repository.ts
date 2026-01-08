@@ -1,13 +1,12 @@
 import { Prisma } from "@prisma/client";
 import { SeqKey } from "./seq-key";
-import { SeqRepositoryInterface } from "./seq-repository.interface";
 
 
 
 /**
  * json形式の永続ロジック用クラス
  */
-export class SeqRepository implements SeqRepositoryInterface {
+export class SeqRepository {
 
 
     constructor() { }

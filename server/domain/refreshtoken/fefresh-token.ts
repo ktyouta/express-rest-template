@@ -11,7 +11,7 @@ export class RefreshToken {
 
     private static readonly jwt = require("jsonwebtoken");
     // トークン
-    private readonly _token: string;
+    private readonly _value: string;
     // cookieのキー
     static readonly COOKIE_KEY: string = `refresh_token`;
     // リフレッシュトークン用のjwtキー
@@ -37,7 +37,7 @@ export class RefreshToken {
     };
 
     private constructor(token: string) {
-        this._token = token;
+        this._value = token;
     }
 
     /**
@@ -177,6 +177,6 @@ export class RefreshToken {
     }
 
     get token() {
-        return this._token;
+        return this._value;
     }
 }

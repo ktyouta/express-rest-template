@@ -2,7 +2,7 @@ import { Request } from 'express';
 
 export class Cookie {
 
-    private _cookie: Record<string, string>;
+    private _value: Record<string, string>;
 
     constructor(req: Request) {
 
@@ -10,10 +10,10 @@ export class Cookie {
             throw Error(`リクエストが存在しません。`);
         }
 
-        this._cookie = req.cookies;
+        this._value = req.cookies;
     }
 
     get cookie() {
-        return this._cookie;
+        return this._value;
     }
 }

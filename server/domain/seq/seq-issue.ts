@@ -1,11 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { SeqKey } from "./seq-key";
-import { SeqRepositoryInterface } from "./seq-repository.interface";
+import { SeqRepository } from "./seq-repository";
 
 export class SeqIssue {
 
     private static readonly INCREMENT_SEQ = 1;
-    constructor(private readonly _repository: SeqRepositoryInterface) { }
+    constructor(private readonly _repository: SeqRepository) { }
 
     /**
      * シーケンスを発番する
