@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS } from '../../consts/http-status.const';
-import { ApiEndopoint } from '../../routes/api-endpoint.const';
+import { API_ENDPOINT } from '../../routes/api-endpoint.const';
 import { HTTP_METHOD } from '../../routes/http-method.type';
 import { RouteController } from '../../routes/route-controller';
 import { RouteSettingModel } from '../../routes/route-setting.model';
@@ -15,7 +15,7 @@ export class HealthController extends RouteController {
         return new RouteSettingModel(
             HTTP_METHOD.GET,
             this.doExecute,
-            ApiEndopoint.HEALTH
+            API_ENDPOINT.HEALTH
         );
     }
 

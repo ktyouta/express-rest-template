@@ -6,7 +6,7 @@ import { HTTP_STATUS } from "../../../consts/http-status.const";
 import { AccessToken } from "../../../domain/accesstoken/access-token";
 import { RefreshToken } from "../../../domain/refreshtoken/fefresh-token";
 import { PrismaTransaction } from "../../../infrastructure/prisma/prisma-transaction";
-import { ApiEndopoint } from "../../../routes/api-endpoint.const";
+import { API_ENDPOINT } from "../../../routes/api-endpoint.const";
 import { HTTP_METHOD } from "../../../routes/http-method.type";
 import { RouteController } from "../../../routes/route-controller";
 import { RouteSettingModel } from "../../../routes/route-setting.model";
@@ -31,7 +31,7 @@ export class CreateFrontUserController extends RouteController {
         return new RouteSettingModel(
             HTTP_METHOD.POST,
             this.doExecute,
-            ApiEndopoint.FRONT_USER,
+            API_ENDPOINT.FRONT_USER,
         );
     }
 
