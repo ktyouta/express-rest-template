@@ -4,7 +4,7 @@ import { FrontUserPassword } from "../../domain/front-user-password";
 import { FrontUserSalt } from "../../domain/front-user-salt";
 
 
-export class FrontUserLoginMasterInsertEntity {
+export class FrontUserLoginEntity {
 
     // ユーザーID
     private readonly _frontUserId: FrontUserId;
@@ -16,9 +16,9 @@ export class FrontUserLoginMasterInsertEntity {
     private readonly _frontUserName: FrontUserName;
 
     constructor(userId: FrontUserId,
+        frontUserName: FrontUserName,
         frontUserPassword: FrontUserPassword,
         salt: FrontUserSalt,
-        frontUserName: FrontUserName,
     ) {
 
         this._frontUserId = userId;

@@ -35,7 +35,7 @@ model FrontUserLoginMaster {
 
 
 // フロントユーザーマスタ
-model FrontUserInfoMaster {
+model FrontUserMaster {
   userId      Int   @id @map("user_id")
   userName    String   @unique @db.VarChar(255)  @map("user_name")
   userBirthday    String   @db.Char(8)  @map("user_birthday")
@@ -43,7 +43,7 @@ model FrontUserInfoMaster {
   updateDate  DateTime @db.Timestamptz @map("update_date")
   deleteFlg   String   @db.Char(1)  @map("delete_flg")
   lastLoginDate  DateTime? @db.Timestamptz @map("last_login_date")
-  @@map("front_user_info_master")
+  @@map("front_user_master")
 }
 
 

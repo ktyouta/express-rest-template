@@ -1,5 +1,8 @@
-import { Prisma } from "@prisma/client";
+import { FrontUserMaster, Prisma } from "@prisma/client";
 import { FLG } from "../../../consts/flg.const";
+import { PrismaClientInstance } from "../../../infrastructure/prisma/prisma-client-instance";
+import { FrontUserName } from "../../domain/front-user-name";
+import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
 import { FrontUserEntity } from "../entity/front-user.entity";
 
 
@@ -12,9 +15,25 @@ export class CreateFrontUserRepository {
     }
 
     /**
+     * ユーザー取得
+     * @returns 
+     */
+    async select(userName: FrontUserName): Promise<FrontUserMaster[]> {
+
+        const result = await PrismaClientInstance.getInstance().frontUserMaster.findMany({
+            where: {
+                userName: userName.value,
+                deleteFlg: FLG.OFF,
+            }
+        });
+
+        return result;
+    }
+
+    /**
      * フロントのユーザー情報を作成
      */
-    async insert(entity: FrontUserEntity,
+    async insertFrontUser(entity: FrontUserEntity,
         tx: Prisma.TransactionClient
     ) {
 
@@ -22,7 +41,7 @@ export class CreateFrontUserRepository {
         const userName = entity.frontUserName;
         const userBirthday = entity.frontUserBirthDay;
 
-        const newUserInfo = await tx.frontUserInfoMaster.create({
+        const newUserInfo = await tx.frontUserMaster.create({
             data: {
                 userId,
                 userName,
@@ -34,5 +53,32 @@ export class CreateFrontUserRepository {
         });
 
         return newUserInfo;
+    }
+
+    /**
+     * フロントのユーザーログイン情報を作成
+     */
+    async insertFrontLoginUser(entity: FrontUserLoginEntity,
+        tx: Prisma.TransactionClient
+    ) {
+
+        const userId = entity.frontUserId;
+        const password = entity.frontUserPassword;
+        const salt = entity.salt;
+        const userName = entity.frontUserName;
+
+        const result = tx.frontUserLoginMaster.create({
+            data: {
+                userId,
+                password,
+                salt,
+                createDate: new Date(),
+                updateDate: new Date(),
+                deleteFlg: FLG.OFF,
+                userName,
+            },
+        });
+
+        return result;
     }
 }

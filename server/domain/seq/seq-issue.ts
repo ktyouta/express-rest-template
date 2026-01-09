@@ -5,15 +5,17 @@ import { SeqRepository } from "./seq-repository";
 export class SeqIssue {
 
     private static readonly INCREMENT_SEQ = 1;
-    constructor(private readonly _repository: SeqRepository) { }
+    private static readonly _repository: SeqRepository = new SeqRepository();
+
+    constructor() { }
 
     /**
      * シーケンスを発番する
      */
-    async get(seqKey: SeqKey, tx: Prisma.TransactionClient) {
+    static async get(seqKey: SeqKey, tx: Prisma.TransactionClient) {
 
         // シーケンスを取得
-        const sequence = await this._repository.getSequenceByKey(seqKey, tx);
+        const sequence = await SeqIssue._repository.getSequenceByKey(seqKey, tx);
 
         if (!sequence) {
             throw Error(`キーに対するシーケンスを取得できませんでした。key:${seqKey.value}`);
@@ -23,7 +25,7 @@ export class SeqIssue {
         const nextId = retId + SeqIssue.INCREMENT_SEQ;
 
         // シーケンスを更新
-        await this._repository.updateSequence(seqKey, nextId, tx);
+        await SeqIssue._repository.updateSequence(seqKey, nextId, tx);
 
         return retId;
     }
