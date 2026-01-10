@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { AuthService } from '../auth/serivce/auth.service';
+import { AuthService } from '../auth/service/auth.service';
 import { HTTP_STATUS } from '../const/http-status.const';
 import { AccessToken } from '../domain/accesstoken/access-token';
 import { Header } from '../domain/header/header';
@@ -25,7 +25,7 @@ export async function authMiddleware(
         const accessToken = AccessToken.get(header);
 
         // トークン検証
-        const userId = accessToken.getPalyload();
+        const userId = accessToken.getPayload();
 
         // ユーザー情報取得
         const userInfoList = await service.select(userId);
@@ -38,7 +38,11 @@ export async function authMiddleware(
 
         req.user = {
             userId,
-            info: userInfo,
+            info: {
+                userId: userInfo.userId,
+                userName: userInfo.userName,
+                birthday: userInfo.userBirthday,
+            },
         };
 
         next();

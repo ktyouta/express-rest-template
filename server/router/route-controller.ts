@@ -1,7 +1,7 @@
 import { IRouterMatcher, Router } from "express";
 import { AsyncErrorMiddleware } from "../middleware/async-error.middleware";
 import { HTTP_METHOD, HttpMethodType } from "./http-method.type";
-import { RouteSettingModel } from "./route-setting.model";
+import { RouteSettingModel } from "./route-setting-model";
 
 export abstract class RouteController {
 

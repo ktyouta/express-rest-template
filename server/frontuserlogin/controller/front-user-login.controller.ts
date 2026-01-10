@@ -8,12 +8,12 @@ import { FrontUserName } from '../../domain/frontusername/front-user-name';
 import { FrontUserPassword } from '../../domain/frontuserpassword/front-user-password';
 import { FrontUserSalt } from '../../domain/frontusersalt/front-user-salt';
 import { Pepper } from '../../domain/pepper/pepper';
-import { RefreshToken } from '../../domain/refreshtoken/fefresh-token';
+import { RefreshToken } from '../../domain/refreshtoken/refresh-token';
 import { PrismaTransaction } from '../../infrastructure/prisma/prisma-transaction';
 import { API_ENDPOINT } from '../../router/api-endpoint.const';
 import { HTTP_METHOD } from '../../router/http-method.type';
 import { RouteController } from '../../router/route-controller';
-import { RouteSettingModel } from '../../router/route-setting.model';
+import { RouteSettingModel } from '../../router/route-setting-model';
 import { ApiResponse } from '../../util/api-response';
 import { LOGIN_ERR_MESSAGE } from '../const/front-user-login.consts';
 import { FrontUserLoginResponseDto } from '../dto/front-user-login-response.dto';
@@ -23,7 +23,7 @@ import { FrontUserLoginService } from '../service/front-user-login.service';
 
 export class FrontUserLoginController extends RouteController {
 
-    private frontUserLoginService = new FrontUserLoginService();
+    private readonly frontUserLoginService = new FrontUserLoginService();
 
     protected getRouteSettingModel(): RouteSettingModel {
 

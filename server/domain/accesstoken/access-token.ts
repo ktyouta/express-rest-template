@@ -88,7 +88,7 @@ export class AccessToken {
      * トークンのペイロードを取得
      * @returns 
      */
-    getPalyload() {
+    getPayload() {
 
         const decode = this.verify();
 

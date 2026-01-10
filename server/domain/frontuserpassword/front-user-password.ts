@@ -23,8 +23,7 @@ export class FrontUserPassword {
             throw Error(`ユーザーのパスワードが設定されていません。`);
         }
 
-        const pepepr = pepper.value;
-        const keyedPassword = createHmac('sha256', pepepr).update(inputPassword).digest();
+        const keyedPassword = createHmac('sha256', pepper.value).update(inputPassword).digest();
 
         // パスワードをハッシュ化
         const salt = frontUserSaltValue.salt;

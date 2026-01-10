@@ -7,10 +7,10 @@ import { authMiddleware } from "../../../middleware/auth.middleware";
 import { API_ENDPOINT } from "../../../router/api-endpoint.const";
 import { HTTP_METHOD } from "../../../router/http-method.type";
 import { RouteController } from "../../../router/route-controller";
-import { RouteSettingModel } from "../../../router/route-setting.model";
+import { RouteSettingModel } from "../../../router/route-setting-model";
 import { AuthenticatedRequestType } from "../../../type/authenticated-request.type";
 import { ApiResponse } from "../../../util/api-response";
-import { PathParamSchema } from "../schema/path-param.scchema";
+import { PathParamSchema } from "../schema/path-param.schema";
 import { DeleteFrontUserService } from "../service/delete-front-user.service";
 
 

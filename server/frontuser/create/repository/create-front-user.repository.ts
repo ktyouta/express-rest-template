@@ -67,7 +67,7 @@ export class CreateFrontUserRepository {
         const salt = entity.salt;
         const userName = entity.frontUserName;
 
-        const result = tx.frontUserLoginMaster.create({
+        const result = await tx.frontUserLoginMaster.create({
             data: {
                 userId,
                 password,

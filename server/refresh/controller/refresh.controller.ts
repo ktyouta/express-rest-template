@@ -5,12 +5,12 @@ import { AuthOrigin } from "../../domain/authorigin/auth-origin";
 import { Cookie } from "../../domain/cookie/cookie";
 import { Header } from "../../domain/header/header";
 import { RefreshCustomHeader } from "../../domain/refreshcustomheader/refresh-custom-header";
-import { RefreshToken } from "../../domain/refreshtoken/fefresh-token";
+import { RefreshToken } from "../../domain/refreshtoken/refresh-token";
 import { Logger } from "../../logger/logger";
 import { API_ENDPOINT } from "../../router/api-endpoint.const";
 import { HTTP_METHOD } from "../../router/http-method.type";
 import { RouteController } from "../../router/route-controller";
-import { RouteSettingModel } from "../../router/route-setting.model";
+import { RouteSettingModel } from "../../router/route-setting-model";
 import { ApiResponse } from "../../util/api-response";
 import { RefreshService } from "../service/refresh.service";
 
@@ -60,7 +60,7 @@ export class RefreshController extends RouteController {
             const refreshToken = RefreshToken.get(cookie);
 
             // 認証
-            const userId = refreshToken.getPalyload();
+            const userId = refreshToken.getPayload();
 
             // ユーザー情報取得
             const userInfo = await this.refreshService.getUser(userId);

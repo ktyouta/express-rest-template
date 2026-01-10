@@ -3,7 +3,7 @@ import { HTTP_STATUS } from '../../const/http-status.const';
 import { API_ENDPOINT } from '../../router/api-endpoint.const';
 import { HTTP_METHOD } from '../../router/http-method.type';
 import { RouteController } from '../../router/route-controller';
-import { RouteSettingModel } from '../../router/route-setting.model';
+import { RouteSettingModel } from '../../router/route-setting-model';
 import { ApiResponse } from '../../util/api-response';
 import { DateUtil } from '../../util/date.util';
 

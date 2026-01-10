@@ -15,7 +15,7 @@ export class RefreshToken {
     // cookieのキー
     static readonly COOKIE_KEY: string = `refresh_token`;
     // リフレッシュトークン用のjwtキー
-    private static readonly JWT_KEY = envConfig.refreshTokenExpires;
+    private static readonly JWT_KEY = envConfig.refreshTokenJwtKey;
     // リフレッシュトークン有効期間
     private static readonly REFRESH_TOKEN_EXPIRES = envConfig.refreshTokenExpires;
     // cookieオプション
@@ -129,12 +129,12 @@ export class RefreshToken {
             const decoded = RefreshToken.jwt.verify(this.token, RefreshToken.JWT_KEY) as JwtPayload;
 
             if (!decoded || typeof decoded !== `object`) {
-                throw Error(`アクセストークンが不正です。`);
+                throw Error(`リフレッシュトークンが不正です。`);
             }
 
             return decoded;
         } catch (err) {
-            throw Error(`アクセストークンの検証に失敗しました。${err}`);
+            throw Error(`リフレッシュトークンの検証に失敗しました。${err}`);
         }
     }
 
@@ -142,7 +142,7 @@ export class RefreshToken {
      * トークンのペイロードを取得
      * @returns 
      */
-    getPalyload() {
+    getPayload() {
 
         const decode = this.verify();
 

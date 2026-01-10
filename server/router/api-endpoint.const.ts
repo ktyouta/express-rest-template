@@ -7,4 +7,4 @@ export const API_ENDPOINT = {
     FRONT_USER_LOGIN: "/api/v1/frontuserlogin",
 } as const;
 
-export type ApiEndopointType = typeof API_ENDPOINT[keyof typeof API_ENDPOINT];
+export type ApiEndpointType = typeof API_ENDPOINT[keyof typeof API_ENDPOINT];
