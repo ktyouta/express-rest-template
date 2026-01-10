@@ -7,7 +7,7 @@ export class FrontUserName {
         this._value = userName;
     }
 
-    public get value() {
+    get value() {
         return this._value;
     }
 
@@ -16,7 +16,7 @@ export class FrontUserName {
      * @param userNameModel 
      * @returns 
      */
-    public checkUsernameDuplicate(userNameModel: FrontUserName) {
+    checkUsernameDuplicate(userNameModel: FrontUserName) {
 
         return this._value === userNameModel.value;
     }

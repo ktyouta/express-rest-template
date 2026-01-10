@@ -1,14 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 
-export class AsyncErrorMiddleware {
+export function AsyncErrorMiddleware(fn: Function) {
 
-    public static handler(fn: Function) {
+    return function (req: Request, res: Response, next: NextFunction) {
 
-        return function (req: Request, res: Response, next: NextFunction) {
-
-            Promise.resolve(
-                fn(req, res, next)
-            ).catch(next);
-        };
-    }
+        Promise.resolve(
+            fn(req, res, next)
+        ).catch(next);
+    };
 }

@@ -11,7 +11,7 @@ export class ApiResponse {
      * @param data 
      * @returns 
      */
-    public static create<T>(res: Response, status: number, message: string, data?: T) {
+    static create<T>(res: Response, status: number, message: string, data?: T) {
 
         return res.status(status).json({
             status: status,

@@ -8,7 +8,7 @@ export class DateUtil {
      * 現在日時を取得
      * @returns 
      */
-    public static getNowDatetime(format: DateFormat) {
+    static getNowDatetime(format: DateFormat) {
 
         return this.getFormatDatetime(new Date(), format);
     }
@@ -20,7 +20,7 @@ export class DateUtil {
      * @param format 
      * @returns 
      */
-    public static getFormatDatetime(date: Date, format: DateFormat): string {
+    static getFormatDatetime(date: Date, format: DateFormat): string {
 
         const year = date.getFullYear();
         const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -54,7 +54,7 @@ export class DateUtil {
      * @param format 
      * @returns 
      */
-    public static getNowDateYYYYMMDD() {
+    static getNowDateYYYYMMDD() {
 
         return this.getFormatDatetime(new Date(), 'yyyyMMdd');
     }

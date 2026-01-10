@@ -9,7 +9,7 @@ export class File {
      * @param filePath 
      * @returns 
      */
-    public static isExist(filePath: string) {
+    static isExist(filePath: string) {
 
         try {
             this.fs.statSync(filePath);
@@ -25,7 +25,7 @@ export class File {
      * @param filePath 
      * @returns 
      */
-    public static read(filePath: string) {
+    static read(filePath: string) {
 
         // ファイルの存在チェック
         if (!this.isExist(filePath)) {
@@ -46,7 +46,7 @@ export class File {
      * @param dirPath 
      * @returns 
      */
-    public static getNameInDir(dirPath: string,) {
+    static getNameInDir(dirPath: string,) {
 
         try {
             const files: string[] = this.fs.readdirSync(dirPath);
@@ -64,7 +64,7 @@ export class File {
      * @param data 
      * @returns 
      */
-    public static overWrite(filePath: string, data: string) {
+    static overWrite(filePath: string, data: string) {
 
         try {
 
@@ -87,7 +87,7 @@ export class File {
      * @param data 
      * @returns 
      */
-    public static append<T>(filePath: string, data: T) {
+    static append<T>(filePath: string, data: T) {
 
         if (!filePath) {
             throw Error(`出力先のファイルパスが指定されていません。`);

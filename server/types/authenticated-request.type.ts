@@ -4,7 +4,7 @@ import { FrontUserInfoType } from './front-user.type';
 
 export type AuthenticatedRequestType = {
     user: {
-        frontUserIdModel: FrontUserId,
-        frontUserInfo: FrontUserInfoType,
+        userId: FrontUserId,
+        info: FrontUserInfoType,
     }
 } & Request;

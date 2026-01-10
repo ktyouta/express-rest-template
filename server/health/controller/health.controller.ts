@@ -25,7 +25,7 @@ export class HealthController extends RouteController {
      * @param res 
      * @returns 
      */
-    public async doExecute(req: Request, res: Response, next: NextFunction) {
+    async doExecute(req: Request, res: Response, next: NextFunction) {
 
         const nowDate = DateUtil.getNowDatetime(`yyyy-MM-dd HH:mm:ss`);
 

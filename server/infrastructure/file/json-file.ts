@@ -12,7 +12,7 @@ export class JsonFile {
      * @param data 
      * @returns 
      */
-    public static overWrite<T>(filePath: string, data: T) {
+    static overWrite<T>(filePath: string, data: T) {
 
         try {
             //json文字列に変換
@@ -36,7 +36,7 @@ export class JsonFile {
      * @param filePath 
      * @returns 
      */
-    public static getFileObj<T>(filePath: string): T {
+    static getFileObj<T>(filePath: string): T {
 
         //ファイルの読み込み
         const fileData = File.read(filePath);

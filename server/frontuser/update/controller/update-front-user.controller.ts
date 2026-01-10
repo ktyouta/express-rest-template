@@ -1,51 +1,63 @@
 import { Prisma } from "@prisma/client";
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from "express";
 import { ZodIssue } from "zod";
 import { envFlags } from "../../../config/env.flags";
 import { HTTP_STATUS } from "../../../consts/http-status.const";
-import { AccessToken } from "../../../domain/accesstoken/access-token";
 import { RefreshToken } from "../../../domain/refreshtoken/fefresh-token";
 import { PrismaTransaction } from "../../../infrastructure/prisma/prisma-transaction";
+import { authMiddleware } from "../../../middleware/auth.middleware";
 import { API_ENDPOINT } from "../../../routes/api-endpoint.const";
 import { HTTP_METHOD } from "../../../routes/http-method.type";
 import { RouteController } from "../../../routes/route-controller";
 import { RouteSettingModel } from "../../../routes/route-setting.model";
+import { AuthenticatedRequestType } from "../../../types/authenticated-request.type";
 import { ApiResponse } from "../../../util/api-response";
 import { FrontUserBirthday } from "../../domain/front-user-birthday";
 import { FrontUserName } from "../../domain/front-user-name";
-import { FrontUserPassword } from "../../domain/front-user-password";
-import { FrontUserSalt } from "../../domain/front-user-salt";
-import { CreateFrontUserResponseDto } from "../dto/create-front-user-response.dto";
+import { UpdateFrontUserResponseDto } from "../dto/update-front-user-response.dto";
 import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
 import { FrontUserEntity } from "../entity/front-user.entity";
+import { PathParamSchema } from "../schema/path-param.scchema";
 import { RequestBodySchema, RequestBodySchemaType } from "../schema/request-body.schema";
-import { CreateFrontUserService } from "../service/create-front-user.service";
+import { UpdateFrontUserService } from "../service/update-front-user.service";
 
 
-export class CreateFrontUserController extends RouteController {
+export class UpdateFrontUserController extends RouteController {
 
-    private readonly createFrontUserService = new CreateFrontUserService();
+    private readonly updateFrontUserService = new UpdateFrontUserService();
 
     protected getRouteSettingModel(): RouteSettingModel {
 
         return new RouteSettingModel(
-            HTTP_METHOD.POST,
+            HTTP_METHOD.PUT,
             this.doExecute,
-            API_ENDPOINT.FRONT_USER,
+            API_ENDPOINT.FRONT_USER_ID,
+            [authMiddleware],
         );
     }
 
     /**
-     * ユーザー情報を登録する
+     * ユーザー情報を更新する
      * @param req 
      * @param res 
      * @returns 
      */
-    doExecute(req: Request, res: Response, next: NextFunction) {
+    async doExecute(req: AuthenticatedRequestType, res: Response, next: NextFunction) {
 
         if (!envFlags.allowUserOperation) {
             return ApiResponse.create(res, HTTP_STATUS.FORBIDDEN, `この機能は現在の環境では無効化されています。`);
         }
+
+        const userId = req.user.userId;
+
+        // パスパラメータのバリデーションチェック
+        const pathValidateResult = PathParamSchema.safeParse(req.params);
+
+        if (!pathValidateResult.success) {
+            throw Error(`${pathValidateResult.error.message}`);
+        }
+
+        const pathUserId = pathValidateResult.data.userId;
 
         // リクエストのバリデーションチェック
         const validateResult = RequestBodySchema.safeParse(req.body);
@@ -61,55 +73,50 @@ export class CreateFrontUserController extends RouteController {
             return ApiResponse.create(res, HTTP_STATUS.UNPROCESSABLE_ENTITY, validatErrMessage);
         }
 
+        // パスパラメータのユーザーIDとtokenのユーザーIDを比較
+        if (userId.value !== pathUserId) {
+            throw Error(`ユーザーIDが不正です `);
+        }
+
         const requestBody: RequestBodySchemaType = validateResult.data;
         const userName = new FrontUserName(requestBody.userName);
         const userBirthDay = new FrontUserBirthday(requestBody.userBirthday);
-        const salt = FrontUserSalt.generate();
-        const userPassword = FrontUserPassword.hash(requestBody.password, salt);
 
         // トランザクション開始
         PrismaTransaction.start(async (tx: Prisma.TransactionClient) => {
 
-            // ユーザー重複チェック
-            if (await this.createFrontUserService.checkUserNameExists(userName)) {
+            // ユーザーの存在チェック
+            if (await this.updateFrontUserService.checkUserNameExists(userId, userName)) {
                 return ApiResponse.create(res, HTTP_STATUS.UNPROCESSABLE_ENTITY, `既にユーザーが存在しています。`);
             }
 
-            // ユーザーIDを採番する
-            const frontUserId = await this.createFrontUserService.createUserId(tx);
-
-            // ユーザーログイン情報を追加する
+            // ユーザーログイン情報を更新する
             const loginUserEntity = new FrontUserLoginEntity(
-                frontUserId,
+                userId,
                 userName,
-                userPassword,
-                salt,
             );
 
-            await this.createFrontUserService.insertFrontLoginUser(loginUserEntity, tx);
+            await this.updateFrontUserService.updateFrontLoginUser(loginUserEntity, tx);
 
-            // ユーザー情報を追加する
-            const userEntity = new FrontUserEntity(
-                frontUserId,
+            // ユーザー情報を更新する
+            const frontUserEntity = new FrontUserEntity(
+                userId,
                 userName,
                 userBirthDay
             );
 
-            await this.createFrontUserService.insertFrontUser(userEntity, tx);
-
-            // アクセストークンを発行
-            const accessToken = AccessToken.create(frontUserId);
+            await this.updateFrontUserService.updateFrontUser(frontUserEntity, tx);
 
             // リフレッシュトークンを発行
-            const refreshToken = RefreshToken.create(frontUserId);
-
-            // レスポンスを作成
-            const response = new CreateFrontUserResponseDto(userEntity, accessToken);
+            const refreshToken = RefreshToken.create(userId);
 
             // cookieを返却
             res.cookie(RefreshToken.COOKIE_KEY, refreshToken.token, RefreshToken.COOKIE_SET_OPTION);
 
-            return ApiResponse.create(res, HTTP_STATUS.CREATED, `ユーザー情報の登録が完了しました。`, response.value);
+            // レスポンスを作成
+            const response = new UpdateFrontUserResponseDto(frontUserEntity);
+
+            return ApiResponse.create(res, HTTP_STATUS.CREATED, `ユーザー情報の更新が完了しました。`, response.value);
         }, next);
     }
 }

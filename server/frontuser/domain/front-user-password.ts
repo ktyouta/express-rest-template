@@ -55,7 +55,7 @@ export class FrontUserPassword {
         return new FrontUserPassword(hashedPassword);
     }
 
-    public get frontUserPassword() {
+    get frontUserPassword() {
         return this._frontUserPassword;
     }
 

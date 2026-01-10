@@ -5,7 +5,7 @@ import { RouteSettingModel } from "./route-setting.model";
 
 export abstract class RouteController {
 
-    public router: Router;
+    router: Router;
 
     constructor() {
         this.router = Router();
@@ -24,7 +24,7 @@ export abstract class RouteController {
         const middlewares = routeSettingModel.middlewares;
         const httpMethod = methods[httpMethodType];
 
-        httpMethod(endPoint, ...middlewares, AsyncErrorMiddleware.handler(executeFunction.bind(this)));
+        httpMethod(endPoint, ...middlewares, AsyncErrorMiddleware(executeFunction.bind(this)));
     }
 
     protected abstract getRouteSettingModel(): RouteSettingModel;

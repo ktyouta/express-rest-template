@@ -1,7 +1,7 @@
 export class ArrayUtil {
 
     // 配列の等価チェック
-    public static checkArrayEqual<T, U>(list1: T[], list2: U[]) {
+    static checkArrayEqual<T, U>(list1: T[], list2: U[]) {
 
         if (list1.length !== list2.length) {
             return false;

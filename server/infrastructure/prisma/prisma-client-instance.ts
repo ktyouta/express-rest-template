@@ -8,7 +8,7 @@ export class PrismaClientInstance {
 
     }
 
-    public static getInstance(): PrismaClient {
+    static getInstance(): PrismaClient {
         return this.instance;
     }
 }
