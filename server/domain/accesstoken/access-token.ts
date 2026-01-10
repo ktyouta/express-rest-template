@@ -16,7 +16,7 @@ export class AccessToken {
     // アクセストークン用のjwtキー
     private static readonly JWT_KEY = envConfig.accessTokenJwtKey;
     // アクセストークン有効期間
-    private static readonly ACCESS_value_EXPIRES = envConfig.accessTokenExpires;
+    private static readonly ACCESS_TOKEN_EXPIRES = envConfig.accessTokenExpires;
 
     private constructor(token: string) {
         this._value = token;
@@ -48,7 +48,7 @@ export class AccessToken {
             throw Error(`設定ファイルにjwt(アクセス)の秘密鍵が設定されていません。`);
         }
 
-        if (!AccessToken.ACCESS_value_EXPIRES) {
+        if (!AccessToken.ACCESS_TOKEN_EXPIRES) {
             throw Error(`設定ファイルにアクセストークンの有効期限が設定されていません。`);
         }
 
@@ -59,7 +59,7 @@ export class AccessToken {
         }
 
         const jwtStr = `${id}`;
-        const token = AccessToken.jwt.sign({ sub: jwtStr }, AccessToken.JWT_KEY, { expiresIn: AccessToken.ACCESS_value_EXPIRES });
+        const token = AccessToken.jwt.sign({ sub: jwtStr }, AccessToken.JWT_KEY, { expiresIn: AccessToken.ACCESS_TOKEN_EXPIRES });
 
         return new AccessToken(token);
     }

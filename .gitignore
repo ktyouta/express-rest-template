@@ -30,4 +30,6 @@ yarn-error.log*
 
 dist
 
-.claude/
+.claude/**
+!.claude/commands/
+!.claude/commands/**

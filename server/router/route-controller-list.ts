@@ -1,9 +1,9 @@
-import { CreateFrontUserController } from "../frontuser/create/controller/create-front-user.controller";
-import { DeleteFrontUserController } from "../frontuser/delete/controller/delete-front-user.controller";
-import { UpdateFrontUserController } from "../frontuser/update/controller/update-front-user.controller";
-import { FrontUserLoginController } from "../frontuserlogin/controller/front-user-login.controller";
-import { HealthController } from "../health/controller/health.controller";
-import { RefreshController } from "../refresh/controller/refresh.controller";
+import { CreateFrontUserController } from "../api/frontuser/create/controller/create-front-user.controller";
+import { DeleteFrontUserController } from "../api/frontuser/delete/controller/delete-front-user.controller";
+import { UpdateFrontUserController } from "../api/frontuser/update/controller/update-front-user.controller";
+import { FrontUserLoginController } from "../api/frontuserlogin/controller/front-user-login.controller";
+import { HealthController } from "../api/health/controller/health.controller";
+import { RefreshController } from "../api/refresh/controller/refresh.controller";
 import { RouteController } from "./route-controller";
 
 /**

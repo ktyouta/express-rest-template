@@ -32,7 +32,7 @@ export class FrontUserId {
      * @param accessTokenModel 
      * @returns 
      */
-    static fromHAccessToken(accessTokenModel: AccessToken) {
+    static fromAccessToken(accessTokenModel: AccessToken) {
         return accessTokenModel.getPayload();
     }
 }
