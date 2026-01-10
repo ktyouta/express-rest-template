@@ -1,7 +1,7 @@
 import { FrontUserMaster, Prisma } from "@prisma/client";
-import { FLG } from "../../../consts/flg.const";
+import { FLG } from "../../../const/flg.const";
+import { FrontUserName } from "../../../domain/frontusername/front-user-name";
 import { PrismaClientInstance } from "../../../infrastructure/prisma/prisma-client-instance";
-import { FrontUserName } from "../../domain/front-user-name";
 import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
 import { FrontUserEntity } from "../entity/front-user.entity";
 

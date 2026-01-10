@@ -2,19 +2,20 @@ import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from 'express';
 import { ZodIssue } from "zod";
 import { envFlags } from "../../../config/env.flags";
-import { HTTP_STATUS } from "../../../consts/http-status.const";
+import { HTTP_STATUS } from "../../../const/http-status.const";
 import { AccessToken } from "../../../domain/accesstoken/access-token";
+import { FrontUserName } from "../../../domain/frontusername/front-user-name";
+import { FrontUserPassword } from "../../../domain/frontuserpassword/front-user-password";
+import { FrontUserSalt } from "../../../domain/frontusersalt/front-user-salt";
+import { Pepper } from "../../../domain/pepper/pepper";
 import { RefreshToken } from "../../../domain/refreshtoken/fefresh-token";
 import { PrismaTransaction } from "../../../infrastructure/prisma/prisma-transaction";
-import { API_ENDPOINT } from "../../../routes/api-endpoint.const";
-import { HTTP_METHOD } from "../../../routes/http-method.type";
-import { RouteController } from "../../../routes/route-controller";
-import { RouteSettingModel } from "../../../routes/route-setting.model";
+import { API_ENDPOINT } from "../../../router/api-endpoint.const";
+import { HTTP_METHOD } from "../../../router/http-method.type";
+import { RouteController } from "../../../router/route-controller";
+import { RouteSettingModel } from "../../../router/route-setting.model";
 import { ApiResponse } from "../../../util/api-response";
 import { FrontUserBirthday } from "../../domain/front-user-birthday";
-import { FrontUserName } from "../../domain/front-user-name";
-import { FrontUserPassword } from "../../domain/front-user-password";
-import { FrontUserSalt } from "../../domain/front-user-salt";
 import { CreateFrontUserResponseDto } from "../dto/create-front-user-response.dto";
 import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
 import { FrontUserEntity } from "../entity/front-user.entity";
@@ -65,7 +66,8 @@ export class CreateFrontUserController extends RouteController {
         const userName = new FrontUserName(requestBody.userName);
         const userBirthDay = new FrontUserBirthday(requestBody.userBirthday);
         const salt = FrontUserSalt.generate();
-        const userPassword = FrontUserPassword.hash(requestBody.password, salt);
+        const pepper = new Pepper();
+        const userPassword = FrontUserPassword.hash(requestBody.password, salt, pepper);
 
         // トランザクション開始
         PrismaTransaction.start(async (tx: Prisma.TransactionClient) => {

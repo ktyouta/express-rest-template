@@ -1,4 +1,4 @@
-import { FrontUserInfoType } from "../../../types/front-user.type";
+import { FrontUserInfoType } from "../../../type/front-user.type";
 import { FrontUserEntity } from "../entity/front-user.entity";
 
 export class UpdateFrontUserResponseDto {

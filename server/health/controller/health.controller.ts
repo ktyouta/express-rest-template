@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { HTTP_STATUS } from '../../consts/http-status.const';
-import { API_ENDPOINT } from '../../routes/api-endpoint.const';
-import { HTTP_METHOD } from '../../routes/http-method.type';
-import { RouteController } from '../../routes/route-controller';
-import { RouteSettingModel } from '../../routes/route-setting.model';
+import { HTTP_STATUS } from '../../const/http-status.const';
+import { API_ENDPOINT } from '../../router/api-endpoint.const';
+import { HTTP_METHOD } from '../../router/http-method.type';
+import { RouteController } from '../../router/route-controller';
+import { RouteSettingModel } from '../../router/route-setting.model';
 import { ApiResponse } from '../../util/api-response';
 import { DateUtil } from '../../util/date.util';
 

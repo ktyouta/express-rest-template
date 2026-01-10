@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { FrontUserId } from "../../../domain/frontuserid/front-user-id";
+import { FrontUserName } from "../../../domain/frontusername/front-user-name";
 import { SeqIssue } from "../../../domain/seq/seq-issue";
 import { SeqKey } from "../../../domain/seq/seq-key";
-import { FrontUserName } from "../../domain/front-user-name";
 import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
 import { FrontUserEntity } from "../entity/front-user.entity";
 import { CreateFrontUserRepository } from "../repository/create-front-user.repository";
@@ -21,7 +21,6 @@ export class CreateFrontUserService {
 
         // ユーザー情報を取得
         const result = await this._repository.select(userName);
-
         return result.length > 0;
     }
 
@@ -47,7 +46,6 @@ export class CreateFrontUserService {
     async insertFrontLoginUser(entity: FrontUserLoginEntity, tx: Prisma.TransactionClient) {
 
         const result = await this._repository.insertFrontLoginUser(entity, tx);
-
         return result;
     }
 
@@ -61,7 +59,6 @@ export class CreateFrontUserService {
     async insertFrontUser(entity: FrontUserEntity, tx: Prisma.TransactionClient) {
 
         const result = await this._repository.insertFrontUser(entity, tx);
-
         return result;
     }
 }

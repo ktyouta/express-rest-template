@@ -1,6 +1,6 @@
 import { FrontUserId } from "../../../domain/frontuserid/front-user-id";
+import { FrontUserName } from "../../../domain/frontusername/front-user-name";
 import { FrontUserBirthday } from "../../domain/front-user-birthday";
-import { FrontUserName } from "../../domain/front-user-name";
 
 
 export class FrontUserEntity {

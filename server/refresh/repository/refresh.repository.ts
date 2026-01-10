@@ -1,6 +1,6 @@
 import { FrontUserId } from "../../domain/frontuserid/front-user-id";
 import { PrismaClientInstance } from "../../infrastructure/prisma/prisma-client-instance";
-import { FrontUserInfoType } from "../../types/front-user.type";
+import { FrontUserInfoType } from "../../type/front-user.type";
 
 
 

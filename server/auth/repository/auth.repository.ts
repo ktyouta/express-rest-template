@@ -1,5 +1,5 @@
 import { FrontUserMaster } from "@prisma/client";
-import { FLG } from "../../consts/flg.const";
+import { FLG } from "../../const/flg.const";
 import { FrontUserId } from "../../domain/frontuserid/front-user-id";
 import { PrismaClientInstance } from "../../infrastructure/prisma/prisma-client-instance";
 

@@ -1,11 +1,11 @@
 import bodyParser from 'body-parser';
 import { NextFunction, Request, Response } from 'express';
 import { envConfig } from './config/env.config';
-import { HTTP_STATUS } from './consts/http-status.const';
+import { HTTP_STATUS } from './const/http-status.const';
 import { logConfig } from './logger/log-config';
 import { accessLogMiddleware } from './middleware/access-log.middleware';
 import { errorLogMiddleware } from './middleware/error-log.middleware';
-import { ROUTE_CONTROLLER_LIST } from './routes/route-controller-list';
+import { ROUTE_CONTROLLER_LIST } from './router/route-controller-list';
 
 
 const express = require('express');

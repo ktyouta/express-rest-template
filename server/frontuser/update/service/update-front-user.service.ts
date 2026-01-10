@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { FrontUserId } from "../../../domain/frontuserid/front-user-id";
-import { FrontUserName } from "../../domain/front-user-name";
+import { FrontUserName } from "../../../domain/frontusername/front-user-name";
 import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
 import { FrontUserEntity } from "../entity/front-user.entity";
 import { UpdateFrontUserRepository } from "../repository/update-front-user.repository";
@@ -18,7 +18,6 @@ export class UpdateFrontUserService {
 
         // ユーザー情報を取得
         const activeUserInfoMasterList = await this._repository.select(userId, userName);
-
         return activeUserInfoMasterList.length > 0;
     }
 
@@ -32,7 +31,6 @@ export class UpdateFrontUserService {
     async updateFrontLoginUser(entity: FrontUserLoginEntity, tx: Prisma.TransactionClient) {
 
         const result = await this._repository.updatetFrontLoginUser(entity, tx);
-
         return result;
     }
 
@@ -46,7 +44,6 @@ export class UpdateFrontUserService {
     async updateFrontUser(entity: FrontUserEntity, tx: Prisma.TransactionClient) {
 
         const result = await this._repository.updatetFrontUser(entity, tx);
-
         return result;
     }
 }

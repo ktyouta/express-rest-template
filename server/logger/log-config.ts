@@ -1,5 +1,5 @@
 import { configure, getConsoleSink, withFilter } from "@logtape/logtape";
-import { ERROR_LOG_FILE, INFO_LOG_FILE, LOG_FILE_PATH, WARN_LOG_FILE } from "../consts/file-info.const";
+import { ERROR_LOG_FILE, INFO_LOG_FILE, LOG_FILE_PATH, WARN_LOG_FILE } from "../const/file-info.const";
 import { File } from "../infrastructure/file/file";
 import { DateUtil } from "../util/date.util";
 

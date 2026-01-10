@@ -1,7 +1,7 @@
 import { FrontUserId } from "../../../domain/frontuserid/front-user-id";
-import { FrontUserName } from "../../domain/front-user-name";
-import { FrontUserPassword } from "../../domain/front-user-password";
-import { FrontUserSalt } from "../../domain/front-user-salt";
+import { FrontUserName } from "../../../domain/frontusername/front-user-name";
+import { FrontUserPassword } from "../../../domain/frontuserpassword/front-user-password";
+import { FrontUserSalt } from "../../../domain/frontusersalt/front-user-salt";
 
 
 export class FrontUserLoginEntity {
@@ -32,7 +32,7 @@ export class FrontUserLoginEntity {
     }
 
     get frontUserPassword() {
-        return this._frontUserPassword.frontUserPassword;
+        return this._frontUserPassword.value;
     }
 
     get salt() {

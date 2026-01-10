@@ -3,14 +3,12 @@ import { FLG } from "../../../const/flg.const";
 import { FrontUserId } from "../../../domain/frontuserid/front-user-id";
 import { FrontUserName } from "../../../domain/frontusername/front-user-name";
 import { PrismaClientInstance } from "../../../infrastructure/prisma/prisma-client-instance";
-import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
-import { FrontUserEntity } from "../entity/front-user.entity";
 
 
 /**
  * json形式の永続ロジック用クラス
  */
-export class UpdateFrontUserRepository {
+export class DeleteFrontUserRepository {
 
     constructor() {
     }
@@ -37,19 +35,14 @@ export class UpdateFrontUserRepository {
     /**
      * フロントのユーザー情報を更新
      */
-    async updatetFrontUser(entity: FrontUserEntity, tx: Prisma.TransactionClient) {
-
-        const userId = entity.frontUserId;
-        const userName = entity.frontUserName;
-        const userBirthday = entity.frontUserBirthDay;
+    async deletetFrontUser(userId: FrontUserId, tx: Prisma.TransactionClient) {
 
         const result = tx.frontUserMaster.update({
-            where: { userId },
+            where: { userId: userId.value },
             data: {
-                userName,
-                userBirthday,
                 updateDate: new Date(),
                 lastLoginDate: new Date(),
+                deleteFlg: FLG.ON,
             },
         });
 
@@ -59,16 +52,13 @@ export class UpdateFrontUserRepository {
     /**
      * フロントのユーザーログイン情報を更新
      */
-    async updatetFrontLoginUser(entity: FrontUserLoginEntity, tx: Prisma.TransactionClient) {
-
-        const userId = entity.frontUserId;
-        const userName = entity.frontUserName;
+    async deletetFrontLoginUser(userId: FrontUserId, tx: Prisma.TransactionClient) {
 
         const result = tx.frontUserLoginMaster.update({
-            where: { userId },
+            where: { userId: userId.value },
             data: {
-                userName,
                 updateDate: new Date(),
+                deleteFlg: FLG.ON,
             },
         });
 

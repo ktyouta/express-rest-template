@@ -1,5 +1,5 @@
 import { AccessToken } from "../../../domain/accesstoken/access-token";
-import { AuthUserInfoType } from "../../../types/auth-user.type";
+import { AuthUserInfoType } from "../../../type/auth-user.type";
 import { FrontUserEntity } from "../entity/front-user.entity";
 
 export class CreateFrontUserResponseDto {

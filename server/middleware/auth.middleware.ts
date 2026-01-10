@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { AuthService } from '../auth/serivce/auth.service';
-import { HTTP_STATUS } from '../consts/http-status.const';
+import { HTTP_STATUS } from '../const/http-status.const';
 import { AccessToken } from '../domain/accesstoken/access-token';
 import { Header } from '../domain/header/header';
 import { ApiResponse } from '../util/api-response';

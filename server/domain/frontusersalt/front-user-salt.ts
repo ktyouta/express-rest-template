@@ -25,7 +25,7 @@ export class FrontUserSalt {
         return new FrontUserSalt(salt);
     }
 
-    static reConstruct(salt: string) {
+    static of(salt: string) {
         return new FrontUserSalt(salt);
     }
 
