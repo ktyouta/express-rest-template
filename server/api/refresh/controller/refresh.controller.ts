@@ -21,11 +21,11 @@ export class RefreshController extends RouteController {
 
     protected getRouteSettingModel(): RouteSettingModel {
 
-        return new RouteSettingModel(
-            HTTP_METHOD.POST,
-            this.doExecute,
-            API_ENDPOINT.REFRESH,
-        );
+        return new RouteSettingModel({
+            httpMethodType: HTTP_METHOD.POST,
+            executeFunction: this.doExecute,
+            endPoint: API_ENDPOINT.REFRESH,
+        });
     }
 
     /**

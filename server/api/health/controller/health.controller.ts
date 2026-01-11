@@ -12,11 +12,11 @@ export class HealthController extends RouteController {
 
     protected getRouteSettingModel(): RouteSettingModel {
 
-        return new RouteSettingModel(
-            HTTP_METHOD.GET,
-            this.doExecute,
-            API_ENDPOINT.HEALTH
-        );
+        return new RouteSettingModel({
+            httpMethodType: HTTP_METHOD.GET,
+            executeFunction: this.doExecute,
+            endPoint: API_ENDPOINT.HEALTH
+        });
     }
 
     /**

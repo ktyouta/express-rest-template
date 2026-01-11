@@ -21,15 +21,15 @@ export class DeleteFrontUserController extends RouteController {
 
     protected getRouteSettingModel(): RouteSettingModel {
 
-        return new RouteSettingModel(
-            HTTP_METHOD.DELETE,
-            this.doExecute,
-            API_ENDPOINT.FRONT_USER_ID,
-            [
+        return new RouteSettingModel({
+            httpMethodType: HTTP_METHOD.DELETE,
+            executeFunction: this.doExecute,
+            endPoint: API_ENDPOINT.FRONT_USER_ID,
+            middlewares: [
                 userOperationGuardMiddleware,
                 authMiddleware
             ],
-        );
+        });
     }
 
     /**

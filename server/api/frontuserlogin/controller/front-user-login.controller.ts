@@ -27,11 +27,11 @@ export class FrontUserLoginController extends RouteController {
 
     protected getRouteSettingModel(): RouteSettingModel {
 
-        return new RouteSettingModel(
-            HTTP_METHOD.POST,
-            this.doExecute,
-            API_ENDPOINT.FRONT_USER_LOGIN,
-        );
+        return new RouteSettingModel({
+            httpMethodType: HTTP_METHOD.POST,
+            executeFunction: this.doExecute,
+            endPoint: API_ENDPOINT.FRONT_USER_LOGIN,
+        });
     }
 
     /**

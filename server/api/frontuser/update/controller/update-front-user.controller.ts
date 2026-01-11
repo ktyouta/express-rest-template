@@ -28,15 +28,15 @@ export class UpdateFrontUserController extends RouteController {
 
     protected getRouteSettingModel(): RouteSettingModel {
 
-        return new RouteSettingModel(
-            HTTP_METHOD.PUT,
-            this.doExecute,
-            API_ENDPOINT.FRONT_USER_ID,
-            [
+        return new RouteSettingModel({
+            httpMethodType: HTTP_METHOD.PUT,
+            executeFunction: this.doExecute,
+            endPoint: API_ENDPOINT.FRONT_USER_ID,
+            middlewares: [
                 userOperationGuardMiddleware,
                 authMiddleware
             ],
-        );
+        });
     }
 
     /**

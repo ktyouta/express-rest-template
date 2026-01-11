@@ -2,6 +2,13 @@ import { RequestHandler } from "express";
 import { ApiEndpointType } from "./api-endpoint.const";
 import { HttpMethodType } from "./http-method.type";
 
+type RouteSettingModelType = {
+    httpMethodType: HttpMethodType,
+    executeFunction: Function,
+    endPoint: ApiEndpointType,
+    middlewares?: RequestHandler[],
+}
+
 export class RouteSettingModel {
 
     // httpメソッド
@@ -14,20 +21,16 @@ export class RouteSettingModel {
     private readonly _middlewares: RequestHandler[];
 
 
-    constructor(httpMethodType: HttpMethodType,
-        executeFunction: Function,
-        endPoint: ApiEndpointType,
-        middlewares: RequestHandler[] = []
-    ) {
-
-        if (!endPoint) {
-            throw Error(`エンドポイントが設定されていません。`);
-        }
-
+    constructor({
+        httpMethodType,
+        executeFunction,
+        endPoint,
+        middlewares,
+    }: RouteSettingModelType) {
         this._httpMethodType = httpMethodType;
         this._executeFunction = executeFunction;
         this._endPoint = endPoint;
-        this._middlewares = middlewares;
+        this._middlewares = middlewares ?? [];
     }
 
     get httpMethodType() {
