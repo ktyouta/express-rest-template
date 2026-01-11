@@ -40,10 +40,7 @@ export class FrontUserLoginController extends RouteController {
             return ApiResponse.create(res, HTTP_STATUS.UNPROCESSABLE_ENTITY, formatZodErrors(validateResult.error.errors));
         }
 
-        const result = await this.useCase.execute({
-            requestBody: validateResult.data,
-            next
-        });
+        const result = await this.useCase.execute(validateResult.data);
 
         if (!result.success) {
             return ApiResponse.create(res, result.status, result.message);

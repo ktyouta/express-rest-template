@@ -1,9 +1,6 @@
-import { Prisma } from "@prisma/client";
 import { NextFunction, Response } from "express";
 import { HTTP_STATUS } from "../../../../const/http-status.const";
-import { FrontUserName } from "../../../../domain/frontusername/front-user-name";
 import { RefreshToken } from "../../../../domain/refreshtoken/refresh-token";
-import { PrismaTransaction } from "../../../../infrastructure/prisma/prisma-transaction";
 import { authMiddleware } from "../../../../middleware/auth.middleware";
 import { userOperationGuardMiddleware } from "../../../../middleware/user-operation-guard.middleware";
 import { API_ENDPOINT } from "../../../../router/api-endpoint.const";
@@ -13,18 +10,14 @@ import { RouteSettingModel } from "../../../../router/route-setting-model";
 import { AuthenticatedRequestType } from "../../../../type/authenticated-request.type";
 import { ApiResponse } from "../../../../util/api-response";
 import { formatZodErrors } from "../../../../util/validation.util";
-import { FrontUserBirthday } from "../../domain/front-user-birthday";
-import { UpdateFrontUserResponseDto } from "../dto/update-front-user-response.dto";
-import { FrontUserLoginEntity } from "../entity/front-user-login.entity";
-import { FrontUserEntity } from "../entity/front-user.entity";
 import { PathParamSchema } from "../schema/path-param.schema";
-import { RequestBodySchema, RequestBodySchemaType } from "../schema/request-body.schema";
-import { UpdateFrontUserService } from "../service/update-front-user.service";
+import { RequestBodySchema } from "../schema/request-body.schema";
+import { UpdateFrontUserUseCase } from "../usecase/update-front-user.usecase";
 
 
 export class UpdateFrontUserController extends RouteController {
 
-    private readonly updateFrontUserService = new UpdateFrontUserService();
+    private readonly useCase = new UpdateFrontUserUseCase();
 
     protected getRouteSettingModel(): RouteSettingModel {
 
@@ -41,9 +34,9 @@ export class UpdateFrontUserController extends RouteController {
 
     /**
      * ユーザー情報を更新する
-     * @param req 
-     * @param res 
-     * @returns 
+     * @param req
+     * @param res
+     * @returns
      */
     async doExecute(req: AuthenticatedRequestType, res: Response, next: NextFunction) {
 
@@ -71,45 +64,15 @@ export class UpdateFrontUserController extends RouteController {
             throw Error(`ユーザーIDが不正です `);
         }
 
-        const requestBody: RequestBodySchemaType = validateResult.data;
-        const userName = new FrontUserName(requestBody.userName);
-        const userBirthDay = new FrontUserBirthday(requestBody.userBirthday);
+        const result = await this.useCase.execute(userId, validateResult.data);
 
-        // トランザクション開始
-        PrismaTransaction.start(async (tx: Prisma.TransactionClient) => {
+        if (!result.success) {
+            return ApiResponse.create(res, result.status, result.message);
+        }
 
-            // ユーザーの存在チェック
-            if (await this.updateFrontUserService.checkUserNameExists(userId, userName)) {
-                return ApiResponse.create(res, HTTP_STATUS.UNPROCESSABLE_ENTITY, `既にユーザーが存在しています。`);
-            }
+        // cookieを返却
+        res.cookie(RefreshToken.COOKIE_KEY, result.data.refreshToken, RefreshToken.COOKIE_SET_OPTION);
 
-            // ユーザーログイン情報を更新する
-            const loginUserEntity = new FrontUserLoginEntity(
-                userId,
-                userName,
-            );
-
-            await this.updateFrontUserService.updateFrontLoginUser(loginUserEntity, tx);
-
-            // ユーザー情報を更新する
-            const frontUserEntity = new FrontUserEntity(
-                userId,
-                userName,
-                userBirthDay
-            );
-
-            await this.updateFrontUserService.updateFrontUser(frontUserEntity, tx);
-
-            // リフレッシュトークンを発行
-            const refreshToken = RefreshToken.create(userId);
-
-            // cookieを返却
-            res.cookie(RefreshToken.COOKIE_KEY, refreshToken.value, RefreshToken.COOKIE_SET_OPTION);
-
-            // レスポンスを作成
-            const response = new UpdateFrontUserResponseDto(frontUserEntity);
-
-            return ApiResponse.create(res, HTTP_STATUS.CREATED, `ユーザー情報の更新が完了しました。`, response.value);
-        }, next);
+        return ApiResponse.create(res, result.status, result.message, result.data.response);
     }
 }

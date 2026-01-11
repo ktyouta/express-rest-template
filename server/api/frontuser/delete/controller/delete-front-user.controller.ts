@@ -1,7 +1,4 @@
-import { Prisma } from "@prisma/client";
 import { NextFunction, Response } from "express";
-import { HTTP_STATUS } from "../../../../const/http-status.const";
-import { PrismaTransaction } from "../../../../infrastructure/prisma/prisma-transaction";
 import { authMiddleware } from "../../../../middleware/auth.middleware";
 import { userOperationGuardMiddleware } from "../../../../middleware/user-operation-guard.middleware";
 import { API_ENDPOINT } from "../../../../router/api-endpoint.const";
@@ -12,12 +9,12 @@ import { AuthenticatedRequestType } from "../../../../type/authenticated-request
 import { ApiResponse } from "../../../../util/api-response";
 import { formatZodErrors } from "../../../../util/validation.util";
 import { PathParamSchema } from "../schema/path-param.schema";
-import { DeleteFrontUserService } from "../service/delete-front-user.service";
+import { DeleteFrontUserUseCase } from "../usecase/delete-front-user.usecase";
 
 
 export class DeleteFrontUserController extends RouteController {
 
-    private readonly deleteFrontUserService = new DeleteFrontUserService();
+    private readonly useCase = new DeleteFrontUserUseCase();
 
     protected getRouteSettingModel(): RouteSettingModel {
 
@@ -34,9 +31,9 @@ export class DeleteFrontUserController extends RouteController {
 
     /**
      * ユーザー情報を削除する
-     * @param req 
-     * @param res 
-     * @returns 
+     * @param req
+     * @param res
+     * @returns
      */
     async doExecute(req: AuthenticatedRequestType, res: Response, next: NextFunction) {
 
@@ -56,16 +53,12 @@ export class DeleteFrontUserController extends RouteController {
             throw Error(`ユーザーIDが不正です `);
         }
 
-        // トランザクション開始
-        PrismaTransaction.start(async (tx: Prisma.TransactionClient) => {
+        const result = await this.useCase.execute(userId);
 
-            // ユーザーログイン情報を削除する
-            await this.deleteFrontUserService.deleteFrontLoginUser(userId, tx);
+        if (!result.success) {
+            return ApiResponse.create(res, result.status, result.message);
+        }
 
-            // ユーザー情報を削除する
-            await this.deleteFrontUserService.deleteFrontUser(userId, tx);
-
-            return ApiResponse.create(res, HTTP_STATUS.NO_CONTENT, `ユーザーの削除が完了しました。`);
-        }, next);
+        return ApiResponse.create(res, result.status, result.message);
     }
 }

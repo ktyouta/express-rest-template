@@ -1,5 +1,4 @@
 import { Prisma } from "@prisma/client";
-import { NextFunction } from "express";
 import { HTTP_STATUS } from "../../../const/http-status.const";
 import { AccessToken } from "../../../domain/accesstoken/access-token";
 import { FrontUserId } from "../../../domain/frontuserid/front-user-id";
@@ -15,11 +14,6 @@ import { FrontUserLoginResponseDto } from "../dto/front-user-login-response.dto"
 import { RequestBodySchemaType } from "../schema/request-body.schema";
 import { FrontUserLoginService } from "../service/front-user-login.service";
 
-// 入力型
-type Input = {
-    requestBody: RequestBodySchemaType,
-    next: NextFunction,
-};
 
 // 出力型
 type Output = {
@@ -44,11 +38,11 @@ export class FrontUserLoginUseCase {
 
     constructor() { }
 
-    async execute(input: Input) {
+    async execute(requestBody: RequestBodySchemaType) {
 
         const result = await PrismaTransaction.start(async (tx: Prisma.TransactionClient) => {
 
-            const userName = new FrontUserName(input.requestBody.userName);
+            const userName = new FrontUserName(requestBody.userName);
 
             // ログインユーザーを取得
             const frontUserLoginList = await this.service.getLoginUser(userName);
@@ -64,7 +58,7 @@ export class FrontUserLoginUseCase {
             const pepper = new Pepper();
 
             // テーブルから取得したソルト値とペッパー値をもとに入力されたパスワードをハッシュ化する
-            const password = FrontUserPassword.hash(input.requestBody.password, frontUserSalt, pepper);
+            const password = FrontUserPassword.hash(requestBody.password, frontUserSalt, pepper);
 
             // パスワード認証に失敗
             if (password.value !== frontUserLogin.password) {
@@ -99,7 +93,7 @@ export class FrontUserLoginUseCase {
                     refreshToken: refreshToken.value,
                 },
             };
-        }, input.next);
+        });
 
         return result;
     }
