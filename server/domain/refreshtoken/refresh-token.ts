@@ -126,7 +126,7 @@ export class RefreshToken {
 
         try {
 
-            const decoded = RefreshToken.jwt.verify(this.token, RefreshToken.JWT_KEY) as JwtPayload;
+            const decoded = RefreshToken.jwt.verify(this.value, RefreshToken.JWT_KEY) as JwtPayload;
 
             if (!decoded || typeof decoded !== `object`) {
                 throw Error(`リフレッシュトークンが不正です。`);
@@ -176,7 +176,7 @@ export class RefreshToken {
         return nowMs - iatMs > parseDuration(RefreshToken.REFRESH_TOKEN_EXPIRES);
     }
 
-    get token() {
+    get value() {
         return this._value;
     }
 }

@@ -104,7 +104,7 @@ export class UpdateFrontUserController extends RouteController {
             const refreshToken = RefreshToken.create(userId);
 
             // cookieを返却
-            res.cookie(RefreshToken.COOKIE_KEY, refreshToken.token, RefreshToken.COOKIE_SET_OPTION);
+            res.cookie(RefreshToken.COOKIE_KEY, refreshToken.value, RefreshToken.COOKIE_SET_OPTION);
 
             // レスポンスを作成
             const response = new UpdateFrontUserResponseDto(frontUserEntity);

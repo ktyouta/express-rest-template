@@ -4,13 +4,14 @@ import { PrismaClientInstance } from "./prisma-client-instance";
 
 export class PrismaTransaction {
 
-    static start(fn: Function, next: NextFunction) {
+    static start<T>(fn: (tx: Prisma.TransactionClient) => Promise<T>, next: NextFunction): Promise<T> {
         return PrismaClientInstance.getInstance().$transaction(async (tx: Prisma.TransactionClient) => {
 
             try {
-                await fn(tx);
+                return await fn(tx);
             } catch (err) {
                 next(err);
+                throw err;
             }
         });
     }

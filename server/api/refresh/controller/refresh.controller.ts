@@ -76,7 +76,7 @@ export class RefreshController extends RouteController {
 
             // リフレッシュトークン再発行
             const newRefreshToken = refreshToken.refresh();
-            res.cookie(RefreshToken.COOKIE_KEY, newRefreshToken.token, RefreshToken.COOKIE_SET_OPTION);
+            res.cookie(RefreshToken.COOKIE_KEY, newRefreshToken.value, RefreshToken.COOKIE_SET_OPTION);
 
             // アクセストークン発行
             const accessToken = AccessToken.create(userId);

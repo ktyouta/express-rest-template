@@ -100,7 +100,7 @@ export class CreateFrontUserController extends RouteController {
             const response = new CreateFrontUserResponseDto(userEntity, accessToken);
 
             // cookieを返却
-            res.cookie(RefreshToken.COOKIE_KEY, refreshToken.token, RefreshToken.COOKIE_SET_OPTION);
+            res.cookie(RefreshToken.COOKIE_KEY, refreshToken.value, RefreshToken.COOKIE_SET_OPTION);
 
             return ApiResponse.create(res, HTTP_STATUS.CREATED, `ユーザー情報の登録が完了しました。`, response.value);
         }, next);
